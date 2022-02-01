@@ -6,7 +6,6 @@
 
 #include "nvblock.h"
 #include <stdlib.h>
-#include "zephyr.h"
 
 /* Flash routines for virtual blocks */
 /* read from physical block */
@@ -610,6 +609,10 @@ static int nvb_raw_init(struct nvb_info *info)
 				continue;
 			}
 
+			if (meta_get_version(meta) > NVB_VERSION) {
+				goto end;
+			}
+
 			uint32_t epoch = meta_get_epoch(meta);
 			if (info->root == NVB_BLOCK_NONE) {
 				info->epoch = epoch;
@@ -648,6 +651,8 @@ static int nvb_raw_init(struct nvb_info *info)
 	}
 
 	return 0;
+end:
+	return -NVB_EINVAL;
 }
 
 int nvb_read(struct nvb_info *info, void *data, uint32_t sblock, uint32_t bcnt)

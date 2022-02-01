@@ -44,7 +44,7 @@ extern "C"
 #endif
 
 enum {
-	NVB_VERSION = 0,
+	NVB_VERSION = 0x00009999,
 	NVB_BLOCK_NONE = 0xffff,
 	NVB_MIN_BLOCK_SIZE = 64,
 	NVB_META_ADDRESS_SIZE = 2,
