@@ -1,5 +1,6 @@
 # nvblock
-Block based storage on non volatile memory with wear levelling
+
+## Block based storage on non volatile memory with wear levelling
 
 nvblock is a small translation layer that provides block based access for
 non volatile memories (e.g. eeprom, nor-flash, nand-flash, ...). It is
@@ -20,9 +21,10 @@ read and write routines. It has the following features:
 
 * Support for bad blocks (optional for eeprom/nor flash, required for nand flash)
 
-The nvblock author is gratefull to the developers of the dhara nand flash wear
-levelling library. Idea's from the dhara library (e.g. the radix tree) have
-been adapted in the nvblock library.
+The nvblock author is gratefull to the developers of the 
+[dhara](https://github.com/dlbeer/dhara) nand flash wear levelling library.
+Idea's from the dhara library (e.g. the radix tree) have been adapted in the 
+nvblock library.
 
 The minimum block size of 32 byte also imposes a limitation that is built into
 nvblock: the maximum number of blocks supported is limited to 2^16-1.
@@ -39,9 +41,9 @@ The implementation requires the hardware routines to be provided. These
 routines are documented in `lib/nvblock.h` as a `nvb_config` structure. More
 specifically the hardware routines should provide:
 
-  * read, prog, move, comp (optional) routines. The prog and move routines
-    should erase a block (when working on non volatile memory that needs block
-    erasing) when a write is performed to the start of a eraseable block.
+  * read, prog, move, comp (optional) routines. When working on non volatile
+    memory that uses block erase, the prog and move routines should erase a 
+    block when a write is performed to the start of a eraseable block.
 
   * is_bad/mark_bad routines for non volatile memory that needs bad block
     marking. Blocks marked bad will not be erased nor will they ever be used
@@ -49,7 +51,7 @@ specifically the hardware routines should provide:
 
   * is_free routine to determine wether a block is free.
 
-Example for `zephyr` is provided in `tests/zephyr`. These examples can be
+Examples for `zephyr` are provided in `tests/zephyr`. These examples can be
 compiled by cloning the library and adding the directory as `ZEPHYR_EXTRA_MODULES`
 to the build command. E.g. when the directory is cloned in `myhome/nvblock`:
 
