@@ -1,0 +1,15 @@
+# Copyright (c) 2022 Laczen
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+
+mainmenu "nvblock configuration"
+
+menu "nvblock settings"
+
+config NVBLOCK
+	bool "Enable nvblock"
+
+endmenu
+
+rsource "drivers/Kconfig"

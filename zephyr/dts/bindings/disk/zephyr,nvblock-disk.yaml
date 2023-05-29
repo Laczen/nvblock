@@ -1,0 +1,46 @@
+# Copyright (c) 2023 Laczen
+# SPDX-License-Identifier: Apache-2.0
+
+description: Disk on nvblock device
+
+compatible: "zephyr,nvblock-disk"
+
+include: base.yaml
+
+properties:
+  partition:
+    type: phandle
+    required: true
+    description: |
+      Backing storage flash partition.
+
+  disk-name:
+    type: string
+    required: true
+    description: |
+      Disk name.
+
+  sector-size:
+    type: int
+    default: 512
+    description: |
+      nvblock sector size in bytes.
+  
+  erase-block-size:
+    type: int
+    default: 4096
+    description: |
+      nvblock erase-block size in bytes.
+
+  spare-size:
+    type: int
+    default: 4096
+    description: |
+      nvblock spare size in bytes.
+
+  blocks-per-group:
+    type: int
+    default: 8
+    description: |
+      nvblock blocks (sectors) per group. At the end of each group a meta page
+      is written to the backend.  

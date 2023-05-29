@@ -108,10 +108,10 @@ struct nvb_config {
 	int (*init)(const struct nvb_config *cfg);
 
 	/* lock (optional): blocks execution for other threads */
-	void (*lock)(const struct nvb_config *cfg);
+	int (*lock)(const struct nvb_config *cfg);
 
 	/* unlock (optional): unblocks execution for other threads */
-	void (*unlock)(const struct nvb_config *cfg);
+	int (*unlock)(const struct nvb_config *cfg);
 
 	/* Read a virtual block at location p (the virtual block size can
 	 * be retrieved from cfg).

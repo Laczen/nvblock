@@ -1,3 +1,7 @@
+name: nvblock
 build:
-  cmake: .
-  kconfig: Kconfig
+  cmake: zephyr
+  kconfig: zephyr/Kconfig
+  settings:
+    board_root: zephyr
+    dts_root: zephyr

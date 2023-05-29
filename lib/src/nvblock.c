@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-#include "nvblock.h"
+#include "nvblock/nvblock.h"
 #include <stdlib.h>
 
 /* Flash routines for virtual blocks */
@@ -76,18 +76,23 @@ static bool pb_is_free(const struct nvb_config *cfg, uint32_t p)
 	return cfg->is_free(cfg, p);
 }
 
-static void lock(const struct nvb_config *cfg)
+static int lock(const struct nvb_config *cfg)
 {
-	if (cfg->lock != NULL) {
-		cfg->lock(cfg);
+	if (cfg->lock == NULL) {
+		return 0;
 	}
+
+	return cfg->lock(cfg);
+
 }
 
-static void unlock(const struct nvb_config *cfg)
+static int unlock(const struct nvb_config *cfg)
 {
 	if (cfg->unlock != NULL) {
-		cfg->unlock(cfg);
+		return 0;
 	}
+
+	return cfg->unlock(cfg);
 }
 
 static uint32_t crc32(uint32_t crc, const void *buffer, size_t size);
@@ -672,7 +677,11 @@ int nvb_read(struct nvb_info *info, void *data, uint32_t sblock, uint32_t bcnt)
 	uint8_t *data8 = (uint8_t *)data;
 	int rc = 0;
 
-	lock(cfg);
+	rc = lock(cfg);
+	if (rc != 0) {
+		return rc;
+	}
+
 	nvb_meta_reset(info);
 	while (bcnt != 0U) {
 		uint32_t p;
@@ -693,7 +702,7 @@ int nvb_read(struct nvb_info *info, void *data, uint32_t sblock, uint32_t bcnt)
 	}
 
 end:
-	unlock(cfg);
+	(void)unlock(cfg);
 	return rc;
 }
 
@@ -720,7 +729,11 @@ int nvb_write(struct nvb_info *info, const void *data, uint32_t sblock,
 	uint8_t *data8 = (uint8_t *)data;
 	int rc = 0;
 
-	lock(cfg);
+	rc = lock(cfg);
+	if (rc != 0) {
+		return rc;
+	}
+
 	nvb_meta_reset(info);
 	while (bcnt != 0U) {
 		rc = nvb_write_vblock(info, data8, sblock, bcnt);
@@ -740,7 +753,7 @@ int nvb_write(struct nvb_info *info, const void *data, uint32_t sblock,
 	}
 
 end:
-	unlock(cfg);
+	(void)unlock(cfg);
 	return rc;
 }
 
@@ -780,7 +793,11 @@ int nvb_init(struct nvb_info *info, const struct nvb_config *cfg)
 		}
 	}
 
-	lock(cfg);
+	rc = lock(cfg);
+	if (rc != 0) {
+		return rc;
+	}
+
 	info->cfg = cfg;
 	rc = nvb_raw_init(info);
 	if (rc != 0) {
@@ -790,7 +807,7 @@ int nvb_init(struct nvb_info *info, const struct nvb_config *cfg)
 
 	info->status = NVB_STATUS_OK;
 end:
-	unlock(cfg);
+	(void)unlock(cfg);
 	return rc;
 }
 

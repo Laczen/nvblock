@@ -1,0 +1,17 @@
+# Copyright (c) 2022 Laczen
+# SPDX-License-Identifier: Apache-2.0
+
+config DISK_DRIVER_NVBLOCK
+	bool "NVBlock"
+        select NVBLOCK
+	select FLASH
+	help
+	  NVBlock device is used for the file system.
+
+if DISK_DRIVER_NVBLOCK
+
+module = NVBLOCKDISK
+module-str = nvblockdisk
+source "subsys/logging/Kconfig.template.log_config"
+
+endif # DISK_DRIVER_NVBLOCK

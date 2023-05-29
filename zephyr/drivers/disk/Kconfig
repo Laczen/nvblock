@@ -1,0 +1,5 @@
+if DISK_DRIVERS
+
+rsource "Kconfig.nvblock"
+
+endif # DISK_DRIVERS

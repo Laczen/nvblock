@@ -4,9 +4,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-#include <zephyr.h>
-#include <ztest.h>
-#include "nvblock.h"
+#include <zephyr/kernel.h>
+#include <zephyr/ztest.h>
+#include "nvblock/nvblock.h"
 
 uint8_t data[4096 * 4] = { 0xff };
 
