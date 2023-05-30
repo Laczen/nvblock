@@ -205,15 +205,15 @@ static const struct disk_operations nvblockdisk_ops = {
 #define PARTITION_PHANDLE(n) DT_PHANDLE_BY_IDX(DT_DRV_INST(n), partition, 0)
 #define NVBLOCK_FLDEV(n)                                                        \
         DEVICE_DT_GET_OR_NULL(DT_MTD_FROM_FIXED_PARTITION(PARTITION_PHANDLE(n)))
-#define NVBLOCK_REG_OFF(n) DT_REG_ADDR(PARTITION_PHANDLE(n))
-#define NVBLOCK_REG_SIZE(n) DT_REG_SIZE(PARTITION_PHANDLE(n))
-#define NVBLOCK_ERASEBLOCK_SIZE(n) DT_INST_PROP(n, erase_block_size)
-#define NVBLOCK_BSIZE(n) DT_INST_PROP(n, sector_size)
-#define NVBLOCK_BPG(n) DT_INST_PROP(n, blocks_per_group)
-#define NVBLOCK_GSIZE(n) NVBLOCK_BSIZE(n) * NVBLOCK_BPG(n)
-#define NVBLOCK_GCNT(n) NVBLOCK_REG_SIZE(n) / NVBLOCK_GSIZE(n)
-#define NVBLOCK_SPARE_SIZE(n) DT_INST_PROP(n, spare_size)
-#define NVBLOCK_SPGCNT(n) NVBLOCK_SPARE_SIZE(n) / NVBLOCK_GSIZE(n)
+#define NVBLOCK_REG_OFF(n) (DT_REG_ADDR(PARTITION_PHANDLE(n)))
+#define NVBLOCK_REG_SIZE(n) (DT_REG_SIZE(PARTITION_PHANDLE(n)))
+#define NVBLOCK_ERASEBLOCK_SIZE(n) (DT_INST_PROP(n, erase_block_size))
+#define NVBLOCK_BSIZE(n) (DT_INST_PROP(n, sector_size))
+#define NVBLOCK_BPG(n) (DT_INST_PROP(n, blocks_per_group))
+#define NVBLOCK_GSIZE(n) (NVBLOCK_BSIZE(n) * NVBLOCK_BPG(n))
+#define NVBLOCK_GCNT(n) (NVBLOCK_REG_SIZE(n) / NVBLOCK_GSIZE(n))
+#define NVBLOCK_SPARE_SIZE(n) (DT_INST_PROP(n, spare_size))
+#define NVBLOCK_SPGCNT(n) (NVBLOCK_SPARE_SIZE(n) / NVBLOCK_GSIZE(n))
 
 #define DEFINE_NVBLOCK_DISK(n)                                                  \
         uint8_t nvblockdisk##n##meta[DT_INST_PROP(n, sector_size)];             \

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-&flash0 {
+&flash_sim0 {
 	partitions {
 		compatible = "fixed-partitions";
 		#address-cells = <1>;
@@ -15,9 +15,9 @@
 			reg = <0x00000000 0x000040000>;
 		};
 
-		nvbdisk_partition: partition@40000 {
+		nvbdisk_partition: partition@41000 {
 			label = "nvb_disk";
-			reg = <0x00040000 0x00040000>;
+			reg = <0x00041000 0x00040000>;
 		};
 
 	};
@@ -26,10 +26,11 @@
 / {
 	nvb_disk0 {
 		compatible = "zephyr,nvblock-disk";
+                status = "okay";
 		partition = <&nvbdisk_partition>;
 		disk-name = "NVBL";
-		sector-size = <512>;
-		erase-block-size = <DT_SIZE_K(128)>;
+		sector-size = <256>;
+                erase-block-size = <DT_SIZE_K(128)>;
 		spare-size = <DT_SIZE_K(128)>;
 	};
 };
