@@ -90,6 +90,7 @@ enum nvb_status {
 enum nvb_cmd {
 	NVB_CMD_GET_BLK_COUNT = 0x01,
 	NVB_CMD_GET_BLK_SIZE = 0x02,
+	NVB_CMD_CTRL_SYNC = 0x05,
 };
 
 /** @brief Configuration info structure for the virtual block system */

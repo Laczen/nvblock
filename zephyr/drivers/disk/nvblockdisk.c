@@ -59,7 +59,7 @@ static int nvblock_read(const struct nvb_config *cfg, uint32_t p, void *buffer)
         const uint32_t bsize = cfg->bsize;
 	const uint32_t off = ctx->region_offset + p * bsize;
 	uint8_t *buf = (uint8_t *)buffer;
-
+        
         return flash_read(ctx->fldev, (off_t)off, buf, bsize);
 }
 
@@ -162,6 +162,10 @@ static int nvblockdisk_init(struct disk_info *disk)
 
         disk->dev = ctx->fldev;
 
+        if (nvb_status(nvbi) == NVB_STATUS_OK) {
+                return 0;
+        }
+
         return nvb_init(nvbi, nvbc);
 }
 
@@ -171,6 +175,7 @@ static int nvblockdisk_read(struct disk_info *disk, uint8_t *buff,
         struct nvblock_data *nvbd = CONTAINER_OF(disk, struct nvblock_data, info);
         struct nvb_info *nvbi = nvbd->nvbi;
 
+        LOG_DBG("Disk read %d %d", start_sector, sector_count);
         return nvb_read(nvbi, buff, start_sector, sector_count);
 }
 
@@ -181,6 +186,7 @@ static int nvblockdisk_write(struct disk_info *disk, const uint8_t *buff,
         struct nvblock_data *nvbd = CONTAINER_OF(disk, struct nvblock_data, info);
         struct nvb_info *nvbi = nvbd->nvbi;
 
+        LOG_DBG("Disk write %d %d", start_sector, sector_count);
         return nvb_write(nvbi, buff, start_sector, sector_count);
 }
 
@@ -188,6 +194,8 @@ static int nvblockdisk_ioctl(struct disk_info *disk, uint8_t cmd, void *buff)
 {
         struct nvblock_data *nvbd = CONTAINER_OF(disk, struct nvblock_data, info);
         struct nvb_info *nvbi = nvbd->nvbi;
+
+        LOG_DBG("Disk ioctl %d", cmd);
 
         return nvb_ioctl(nvbi, cmd, buff);
 }

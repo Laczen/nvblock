@@ -846,6 +846,12 @@ int nvb_ioctl(struct nvb_info *info, uint8_t cmd, void *buffer)
 	case NVB_CMD_GET_BLK_SIZE:
 		*(uint32_t *)buffer = cfg->bsize;
 		break;
+	case NVB_CMD_CTRL_SYNC:
+		if (cfg->sync != NULL) {
+			return cfg->sync(cfg);
+		}
+
+		return 0;
 	default:
 		return -NVB_EINVAL;
 	}
