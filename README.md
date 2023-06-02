@@ -51,10 +51,15 @@ specifically the hardware routines should provide:
 
   * is_free routine to determine wether a block is free.
 
-Examples for `zephyr` are provided in `tests/zephyr`. These examples can be
-compiled by cloning the library and adding the directory as `ZEPHYR_EXTRA_MODULES`
-to the build command. E.g. when the directory is cloned in `myhome/nvblock`:
-
+For zephyr users the library provides support for nor-flash devices as a zephyr
+module. This module can be enabled by adding it to `example.yaml` in the
+`submanifest` folder as:
 ```
-west build -b native_posix myhome/nvblock/tests/zephyr/ramtest -DZEPHYR_EXTRA_MODULES=myhome/nvblock -t run
+manifest:
+  projects:
+    - name: nvblock
+      url: https://github.com/Laczen/nvblock
+      revision: main
 ```
+After `west update` the module should be available and can be found as `nvblock`
+in the local workspace. 
