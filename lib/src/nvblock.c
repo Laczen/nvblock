@@ -668,7 +668,7 @@ int nvb_read(struct nvb_info *info, void *data, uint32_t sblock, uint32_t bcnt)
 
 	const struct nvb_config *cfg = info->cfg;
 	const uint32_t gav = cfg->gcnt - cfg->spgcnt;
-	const uint32_t end = gav * (cfg->bpg >> 1U);
+	const uint32_t end = gav * ((cfg->bpg >> 1U) - 1U);
 
 	if (((sblock + bcnt) < sblock) || ((sblock + bcnt) > end)) {
 		return -NVB_EINVAL;
@@ -720,7 +720,7 @@ int nvb_write(struct nvb_info *info, const void *data, uint32_t sblock,
 
 	const struct nvb_config *cfg = info->cfg;
 	const uint32_t gav = cfg->gcnt - cfg->spgcnt;
-	const uint32_t end = gav * (cfg->bpg >> 1U);
+	const uint32_t end = gav * ((cfg->bpg >> 1U) - 1U);
 
 	if (((sblock + bcnt) < sblock) || ((sblock + bcnt) > end)) {
 		return -NVB_EINVAL;
@@ -837,7 +837,7 @@ int nvb_ioctl(struct nvb_info *info, uint8_t cmd, void *buffer)
 
 	const struct nvb_config *cfg = info->cfg;
 	const uint32_t gav = cfg->gcnt - cfg->spgcnt;
-	const uint32_t cnt = gav * (cfg->bpg >> 1U);
+	const uint32_t cnt = gav * ((cfg->bpg >> 1U) - 1U);
 
 	switch(cmd) {
 	case NVB_CMD_GET_BLK_COUNT:
